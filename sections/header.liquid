@@ -20,10 +20,12 @@
     {% if section.settings.enable_transparent-header %}
       .header-wrapper{
         background: transparent;
-      // position: absolute !important;
-      width: 100% !important;
-      top: 0px;
-    }
+        width: 100% !important;
+        top: 0px;
+      }
+      .scrolled-past-header.header-wrapper {
+        background: var(--color-background, #fff) !important;
+      }
     {% endif %}
 
     {% if section.settings.color-transparent %}
