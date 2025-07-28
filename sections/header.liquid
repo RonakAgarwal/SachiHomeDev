@@ -408,10 +408,7 @@
         requestAnimationFrame(this.hide.bind(this));
       } else if (scrollTop < this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
         this.header.classList.add('scrolled-past-header');
-        if (this.stickyType === 'transparent-sticky-header') {
-          // Only add .scrolled-past-header, don't reveal/hide
-          return;
-        }
+        // Always run reveal/hide logic for all sticky types
         if (!this.preventReveal) {
           requestAnimationFrame(this.reveal.bind(this));
         } else {
