@@ -95,6 +95,17 @@
         padding-top: 0.5rem;
       }
     }
+
+    {% if section.settings.sticky_header_type == 'transparent-sticky-header' %}
+      .scrolled-past-header.header-wrapper {
+        background: #fff !important;
+        transition: background 0.3s;
+      }
+      .header-wrapper {
+        background: transparent !important;
+        transition: background 0.3s;
+      }
+    {% endif %}
 </style>
 
 {%- style -%}
@@ -341,9 +352,10 @@
 
     connectedCallback() {
       this.header = document.querySelector('.section-header');
+      this.stickyType = this.getAttribute('data-sticky-type');
       this.headerIsAlwaysSticky =
-        this.getAttribute('data-sticky-type') === 'always' ||
-        this.getAttribute('data-sticky-type') === 'reduce-logo-size';
+        this.stickyType === 'always' ||
+        this.stickyType === 'reduce-logo-size';
       this.headerBounds = {};
 
       this.setHeaderHeight();
@@ -396,6 +408,10 @@
         requestAnimationFrame(this.hide.bind(this));
       } else if (scrollTop < this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
         this.header.classList.add('scrolled-past-header');
+        if (this.stickyType === 'transparent-sticky-header') {
+          // Only add .scrolled-past-header, don't reveal/hide
+          return;
+        }
         if (!this.preventReveal) {
           requestAnimationFrame(this.reveal.bind(this));
         } else {
@@ -579,6 +595,10 @@
         {
           "value": "reduce-logo-size",
           "label": "t:sections.header.settings.sticky_header_type.options__4.label"
+        },
+        {
+          "value": "transparent-sticky-header",
+          "label": "Transparent Sticky Header"
         }
       ],
       "default": "on-scroll-up",
