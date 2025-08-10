@@ -21,7 +21,7 @@
             "subheading": "",
             "button_label": "Shop Sheet Sets",
             "link": "",
-            "button_style_secondary": false,
+            "button_style_secondary": true,
             "show_text_box": false,
             "box_align": "middle-center",
             "text_alignment": "center",
