@@ -86,18 +86,18 @@
             "border_radius": 8,
             "button_border_radius": 4,
             "content_padding": 16,
-            "title_1": "Panel1",
-            "description_1": "Add a description for this image panel.",
+            "title_1": "",
+            "description_1": "",
             "button_text_1": "SHEETS",
             "button_link_1": "shopify://collections/sheet-set",
-            "title_2": "Panel 2",
-            "description_2": "Add a description for this image panel.",
-            "button_text_2": "Learn more",
-            "button_link_2": "",
-            "title_3": "Panel 3",
-            "description_3": "Add a description for this image panel.",
-            "button_text_3": "Learn more",
-            "button_link_3": ""
+            "title_2": "",
+            "description_2": "",
+            "button_text_2": "DUVETS",
+            "button_link_2": "shopify://collections/duvet-covers",
+            "title_3": "",
+            "description_3": "",
+            "button_text_3": "QUILTS",
+            "button_link_3": "shopify://collections"
           },
           "blocks": {}
         }
