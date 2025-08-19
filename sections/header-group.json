@@ -11,6 +11,37 @@
   "name": "t:sections.header.name",
   "type": "header",
   "sections": {
+    "1755620753959528da": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_19c072e_VtjMUN": {
+          "type": "ai_gen_block_19c072e",
+          "settings": {
+            "background_color": "#f5f5f5",
+            "section_padding": 60,
+            "category_spacing": 30,
+            "columns_mobile": "1",
+            "image_height": 300,
+            "image_border_radius": 8,
+            "image_title_spacing": 20,
+            "title_font_size": 18,
+            "title_color": "#000000",
+            "title_hover_color": "#666666",
+            "category_1_title": "Women's Collection",
+            "category_1_link": "",
+            "category_2_title": "Men's Collection",
+            "category_2_link": "",
+            "category_3_title": "Accessories",
+            "category_3_link": ""
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_19c072e_VtjMUN"
+      ],
+      "settings": {}
+    },
     "announcement-bar": {
       "type": "announcement-bar",
       "blocks": {
@@ -58,6 +89,7 @@
     }
   },
   "order": [
+    "1755620753959528da",
     "announcement-bar",
     "header"
   ]

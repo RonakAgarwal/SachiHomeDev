@@ -107,6 +107,43 @@
       ],
       "settings": {}
     },
+    "1755565099d09033aa": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_328c44c_UnfQD7": {
+          "type": "ai_gen_block_328c44c",
+          "settings": {
+            "panel_height": 500,
+            "panel_gap": 20,
+            "image_border_radius": 8,
+            "heading": "Discover Our Collection",
+            "text": "Explore our carefully curated selection of premium products designed to elevate your lifestyle.",
+            "button_text": "Shop Now",
+            "button_link": "",
+            "text_alignment": "center",
+            "text_max_width": 400,
+            "text_padding": 30,
+            "text_border_radius": 12,
+            "text_spacing": 15,
+            "heading_size": 28,
+            "text_size": 16,
+            "background_color": "#ffffff",
+            "text_background_color": "#ffffff",
+            "text_color": "#000000",
+            "button_color": "#000000",
+            "button_text_color": "#ffffff",
+            "button_hover_color": "#333333",
+            "section_padding": 40,
+            "button_border_radius": 6
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_328c44c_UnfQD7"
+      ],
+      "settings": {}
+    },
     "rich_text_38TYh6": {
       "type": "rich-text",
       "blocks": {
@@ -149,43 +186,6 @@
         "padding_top": 40,
         "padding_bottom": 52
       }
-    },
-    "1755565099d09033aa": {
-      "type": "_blocks",
-      "blocks": {
-        "ai_gen_block_328c44c_UnfQD7": {
-          "type": "ai_gen_block_328c44c",
-          "settings": {
-            "panel_height": 500,
-            "panel_gap": 20,
-            "image_border_radius": 8,
-            "heading": "Discover Our Collection",
-            "text": "Explore our carefully curated selection of premium products designed to elevate your lifestyle.",
-            "button_text": "Shop Now",
-            "button_link": "",
-            "text_alignment": "center",
-            "text_max_width": 400,
-            "text_padding": 30,
-            "text_border_radius": 12,
-            "text_spacing": 15,
-            "heading_size": 28,
-            "text_size": 16,
-            "background_color": "#ffffff",
-            "text_background_color": "#ffffff",
-            "text_color": "#000000",
-            "button_color": "#000000",
-            "button_text_color": "#ffffff",
-            "button_hover_color": "#333333",
-            "section_padding": 40,
-            "button_border_radius": 6
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "ai_gen_block_328c44c_UnfQD7"
-      ],
-      "settings": {}
     }
   },
   "order": [
