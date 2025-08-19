@@ -107,43 +107,6 @@
       ],
       "settings": {}
     },
-    "1755565099d09033aa": {
-      "type": "_blocks",
-      "blocks": {
-        "ai_gen_block_328c44c_UnfQD7": {
-          "type": "ai_gen_block_328c44c",
-          "settings": {
-            "panel_height": 500,
-            "panel_gap": 20,
-            "image_border_radius": 8,
-            "heading": "Discover Our Collection",
-            "text": "Explore our carefully curated selection of premium products designed to elevate your lifestyle.",
-            "button_text": "Shop Now",
-            "button_link": "",
-            "text_alignment": "center",
-            "text_max_width": 400,
-            "text_padding": 30,
-            "text_border_radius": 12,
-            "text_spacing": 15,
-            "heading_size": 28,
-            "text_size": 16,
-            "background_color": "#ffffff",
-            "text_background_color": "#ffffff",
-            "text_color": "#000000",
-            "button_color": "#000000",
-            "button_text_color": "#ffffff",
-            "button_hover_color": "#333333",
-            "section_padding": 40,
-            "button_border_radius": 6
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "ai_gen_block_328c44c_UnfQD7"
-      ],
-      "settings": {}
-    },
     "rich_text_38TYh6": {
       "type": "rich-text",
       "blocks": {
@@ -186,12 +149,84 @@
         "padding_top": 40,
         "padding_bottom": 52
       }
+    },
+    "1755565099d09033aa": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_328c44c_UnfQD7": {
+          "type": "ai_gen_block_328c44c",
+          "settings": {
+            "panel_height": 500,
+            "panel_gap": 20,
+            "image_border_radius": 8,
+            "heading": "Discover Our Collection",
+            "text": "Explore our carefully curated selection of premium products designed to elevate your lifestyle.",
+            "button_text": "Shop Now",
+            "button_link": "",
+            "text_alignment": "center",
+            "text_max_width": 400,
+            "text_padding": 30,
+            "text_border_radius": 12,
+            "text_spacing": 15,
+            "heading_size": 28,
+            "text_size": 16,
+            "background_color": "#ffffff",
+            "text_background_color": "#ffffff",
+            "text_color": "#000000",
+            "button_color": "#000000",
+            "button_text_color": "#ffffff",
+            "button_hover_color": "#333333",
+            "section_padding": 40,
+            "button_border_radius": 6
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_328c44c_UnfQD7"
+      ],
+      "settings": {}
+    },
+    "1755621339e3ef23dc": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_ec8d9c4_FaDtfN": {
+          "type": "ai_gen_block_ec8d9c4",
+          "settings": {
+            "background_color": "#f5f5f5",
+            "section_padding": 60,
+            "category_spacing": 30,
+            "columns_mobile": "1",
+            "min_image_height": 300,
+            "image_border_radius": 8,
+            "image_title_spacing": 20,
+            "title_font_size": 18,
+            "title_color": "#000000",
+            "title_hover_color": "#666666",
+            "category_1_title": "Men's Collection",
+            "category_1_link": "",
+            "category_1_image": "shopify://shop_images/Navy-Sateen-Pillows_31fe40a9-96b4-4332-a4fb-b9e1886c2540.jpg",
+            "category_2_title": "Women's Collection",
+            "category_2_link": "",
+            "category_2_image": "shopify://shop_images/Gray-Sateen-Euro_f9a9965c-b737-4f2a-a1be-b473a139dfcc.jpg",
+            "category_3_title": "Accessories",
+            "category_3_link": "",
+            "category_3_image": "shopify://shop_images/Navy-Sateen-Sham_1cce6dde-52a2-4f26-a76e-a1ac75219f33.jpg"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_ec8d9c4_FaDtfN"
+      ],
+      "settings": {}
     }
   },
   "order": [
     "slideshow_xpGq94",
     "1755286697f03ac7d7",
     "rich_text_38TYh6",
-    "1755565099d09033aa"
+    "1755565099d09033aa",
+    "1755621339e3ef23dc"
   ]
 }
