@@ -1,6 +1,335 @@
+{% doc %}
+  @prompt
+    Create a product category showcase section with a light gray background. The section should feature three evenly-spaced product categories arranged horizontally in a single row. Each category should include a large product image positioned above a category title. The category titles should be displayed in bold, uppercase text with underlined styling for emphasis. Center-align all content within each category column. Use consistent spacing between categories and ensure the layout is responsive across different screen sizes. The section should have appropriate padding on all sides to create visual breathing room from surrounding content., fill images with three random ones from product photos. make sure the entire photo can be displayed without cropping, let me edit the photos in schema though
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-category-showcase-{{ ai_gen_id }} {
+    background-color: {{ block.settings.background_color }};
+    padding: {{ block.settings.section_padding }}px;
+  }
+
+  .ai-category-showcase__container-{{ ai_gen_id }} {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .ai-category-showcase__grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: {{ block.settings.category_spacing }}px;
+  }
+
+  .ai-category-showcase__category-{{ ai_gen_id }} {
+    text-align: center;
+  }
+
+  .ai-category-showcase__image-wrapper-{{ ai_gen_id }} {
+    margin-bottom: {{ block.settings.image_title_spacing }}px;border-radius: {{ block.settings.image_border_radius }}px;
+    overflow: hidden;
+    background-color: #f4f4f4;
+  }
+
+  .ai-category-showcase__image-{{ ai_gen_id }} {
+    width: 100%;
+    height: auto;
+    min-height: {{ block.settings.min_image_height }}px;
+    object-fit: contain;
+    display: block;
+  }
+
+  .ai-category-showcase__image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: {{ block.settings.min_image_height }}px;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: {{ block.settings.image_border_radius }}px;
+  }
+
+  .ai-category-showcase__image-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 200px;
+    max-height: 200px;
+    opacity: 0.3;
+  }
+
+  .ai-category-showcase__title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_font_size }}px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: underline;
+    color: {{ block.settings.title_color }};
+    margin:0;
+    line-height: 1.2;
+  }
+
+  .ai-category-showcase__link-{{ ai_gen_id }} {
+    text-decoration: none;
+    color: inherit;
+    display: block;}
+
+  .ai-category-showcase__link-{{ ai_gen_id }}:hover .ai-category-showcase__title-{{ ai_gen_id }} {
+    color: {{ block.settings.title_hover_color }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-category-showcase__grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat({{ block.settings.columns_mobile }}, 1fr);
+      gap: {{ block.settings.category_spacing | times: 0.7 }}px;
+    }
+
+    .ai-category-showcase__image-placeholder-{{ ai_gen_id }} {
+      height: {{ block.settings.min_image_height | times: 0.8 }}px;
+    }
+
+    .ai-category-showcase__title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_font_size | times: 0.9 }}px;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .ai-category-showcase-{{ ai_gen_id }} {
+      padding: {{ block.settings.section_padding | times: 0.7 }}px;
+    }
+
+    .ai-category-showcase__image-placeholder-{{ ai_gen_id }} {
+      height: {{ block.settings.min_image_height | times: 0.6 }}px;
+    }
+  }
+{% endstyle %}<div class="ai-category-showcase-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-category-showcase__container-{{ ai_gen_id }}">
+    <div class="ai-category-showcase__grid-{{ ai_gen_id }}">
+      {% for i in (1..3) %}
+        {% liquid
+          assign category_title_key = 'category_' | append: i | append: '_title'
+          assign category_link_key = 'category_' | append: i | append: '_link'
+          assign category_image_key = 'category_' | append: i | append: '_image'
+          
+          assign category_title = block.settings[category_title_key]
+          assign category_link = block.settings[category_link_key]
+          assign category_image = block.settings[category_image_key]
+        %}
+
+        <div class="ai-category-showcase__category-{{ ai_gen_id }}">
+          {% if category_link != blank %}
+            <a href="{{ category_link }}" class="ai-category-showcase__link-{{ ai_gen_id }}">{% endif %}
+          <div class="ai-category-showcase__image-wrapper-{{ ai_gen_id }}">
+            {% if category_image %}
+              <img
+                src="{{ category_image | image_url: width: 600}}"
+                alt="{{ category_image.alt | default: category_title | escape }}"
+                class="ai-category-showcase__image-{{ ai_gen_id }}"
+                loading="lazy"
+                width="{{ category_image.width }}"
+                height="{{ category_image.height }}"
+              >
+            {% else %}
+              <div class="ai-category-showcase__image-placeholder-{{ ai_gen_id }}">
+                {{ 'product-1' | placeholder_svg_tag }}
+              </div>
+            {% endif %}
+          </div>
+
+          {% if category_title != blank %}
+            <h3 class="ai-category-showcase__title-{{ ai_gen_id }}">
+              {{ category_title }}
+            </h3>
+          {% else %}
+            <h3 class="ai-category-showcase__title-{{ ai_gen_id }}" style="opacity: 0.5;">
+              Category {{ i }}
+            </h3>
+          {% endif %}
+
+          {% if category_link != blank %}
+            </a>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Product category showcase",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Section padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "category_spacing",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Spacing between categories",
+      "default": 30
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns on mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "range",
+      "id": "min_image_height",
+      "min": 200,
+      "max": 500,
+      "step": 20,
+      "unit": "px",
+      "label": "Minimum image height",
+      "default": 300
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Image border radius",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "image_title_spacing",
+      "min": 10,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Spacing between image and title",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "min": 14,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Title font size",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "title_hover_color",
+      "label": "Title hover color",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Category 1"
+    },
+    {
+      "type": "text",
+      "id": "category_1_title",
+      "label": "Title",
+      "default": "Men's Collection"
+    },
+    {
+      "type": "url",
+      "id": "category_1_link",
+      "label": "Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "category_1_image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Category 2"
+    },
+    {
+      "type": "text",
+      "id": "category_2_title",
+      "label": "Title",
+      "default": "Women's Collection"
+    },
+    {
+      "type": "url",
+      "id": "category_2_link",
+      "label": "Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "category_2_image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Category 3"
+    },
+    {
+      "type": "text",
+      "id": "category_3_title",
+      "label": "Title",
+      "default": "Accessories"
+    },
+    {
+      "type": "url",
+      "id": "category_3_link",
+      "label": "Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "category_3_image",
+      "label": "Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product category showcase"
+    }
+  ],
+  "tag": null
+}
 {% endschema %}
