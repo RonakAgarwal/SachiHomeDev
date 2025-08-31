@@ -1,6 +1,627 @@
+{% doc %}
+  @prompt
+    section for press/blog reviews.
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-press-reviews-{{ ai_gen_id }} {
+    padding: {{ block.settings.section_padding }}px 0;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-press-reviews__container-{{ ai_gen_id }} {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .ai-press-reviews__header-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: {{ block.settings.spacing_between_elements }}px;
+  }
+
+  .ai-press-reviews__title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    color: {{ block.settings.text_color }};
+    margin: 0 0 16px;font-weight: 600;
+  }
+
+  .ai-press-reviews__subtitle-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subtitle_size }}px;
+    color: {{ block.settings.text_color }};
+    opacity: 0.8;
+    margin: 0;
+  }
+
+  .ai-press-reviews__grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: {{ block.settings.grid_gap }}px;
+    margin-top: {{ block.settings.spacing_between_elements }}px;
+  }
+
+  .ai-press-review-card-{{ ai_gen_id }} {
+    background-color: {{ block.settings.card_background_color }};
+    border-radius: {{ block.settings.card_border_radius }}px;
+    padding: {{ block.settings.card_padding }}px;
+    border: 1px solid {{ block.settings.card_border_color }};
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .ai-press-review-card-{{ ai_gen_id }}:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .ai-press-review-card__logo-{{ ai_gen_id }} {
+    height: {{ block.settings.logo_height }}px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+  }
+
+  .ai-press-review-card__logo-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;}
+
+  .ai-press-review-card__logo-placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.3;
+  }
+
+  .ai-press-review-card__content-{{ ai_gen_id }} {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ai-press-review-card__excerpt-{{ ai_gen_id }} {
+    font-size: {{ block.settings.excerpt_size }}px;
+    color: {{ block.settings.text_color }};
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex-grow: 1;
+  }
+
+  .ai-press-review-card__meta-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+  }
+
+  .ai-press-review-card__publication-{{ ai_gen_id }} {
+    font-size: {{ block.settings.publication_size }}px;
+    color: {{ block.settings.text_color }};
+    font-weight: 600;
+  }
+
+  .ai-press-review-card__date-{{ ai_gen_id }} {
+    font-size: {{ block.settings.date_size }}px;
+    color: {{ block.settings.text_color }};
+    opacity: 0.7;
+  }
+
+  .ai-press-review-card__link-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: {{ block.settings.link_color }};
+    text-decoration: none;
+    font-size: {{ block.settings.link_size }}px;
+    font-weight: 500;
+    margin-top: 16px;
+    transition: color 0.3s ease;
+  }
+
+  .ai-press-review-card__link-{{ ai_gen_id }}:hover {
+    color: {{ block.settings.link_hover_color }};
+  }
+
+  .ai-press-review-card__link-{{ ai_gen_id }} svg {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s ease;
+  }
+
+  .ai-press-review-card__link-{{ ai_gen_id }}:hover svg {
+    transform: translateX(4px);
+  }
+
+  .ai-press-reviews__empty-state-{{ ai_gen_id }} {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+  }
+
+  .ai-press-reviews__empty-state-{{ ai_gen_id }} h3 {
+    margin: 0 0 8px;
+    font-size: 18px;
+  }
+
+  .ai-press-reviews__empty-state-{{ ai_gen_id }} p {
+    margin: 0;
+    font-size: 14px;
+    opacity: 0.8;
+  }
+
+  @media screen and (max-width: 768px) {
+    .ai-press-reviews__grid-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: {{ block.settings.grid_gap | times: 0.75 }}px;
+    }
+
+    .ai-press-review-card__meta-{{ ai_gen_id }} {
+      flex-direction: column;
+      align-items: flex-start;gap: 8px;
+    }
+  }
+{% endstyle %}<div class="ai-press-reviews-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-press-reviews__container-{{ ai_gen_id }}">
+    {% if block.settings.title != blank or block.settings.subtitle != blank %}
+      <div class="ai-press-reviews__header-{{ ai_gen_id }}">
+        {% if block.settings.title != blank %}
+          <h2 class="ai-press-reviews__title-{{ ai_gen_id }}">{{ block.settings.title }}</h2>
+        {% endif %}
+        {% if block.settings.subtitle != blank %}
+          <p class="ai-press-reviews__subtitle-{{ ai_gen_id }}">{{ block.settings.subtitle }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% assign has_reviews = false %}
+    {% for i in (1..5) %}
+      {% liquid
+        assign publication_key = 'review_' | append: i | append: '_publication'
+        assign excerpt_key = 'review_' | append: i | append: '_excerpt'
+        assign date_key = 'review_' | append: i | append: '_date'
+        assign link_key = 'review_' | append: i | append: '_link'
+        assign logo_key = 'review_' | append: i | append: '_logo'
+
+        assign publication = block.settings[publication_key]
+        assign excerpt = block.settings[excerpt_key]
+        assign date = block.settings[date_key]
+        assign link = block.settings[link_key]
+        assign logo = block.settings[logo_key]%}
+      
+      {% if publication != blank or excerpt != blank %}
+        {% assign has_reviews = true %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+
+    {% if has_reviews %}
+      <div class="ai-press-reviews__grid-{{ ai_gen_id }}">
+        {% for i in (1..5) %}
+          {% liquid
+            assign publication_key = 'review_' | append: i | append: '_publication'
+            assign excerpt_key = 'review_' | append: i | append: '_excerpt'
+            assign date_key = 'review_' | append: i | append: '_date'
+            assign link_key = 'review_' | append: i | append: '_link'
+            assign logo_key = 'review_' | append: i | append: '_logo'
+
+            assign publication = block.settings[publication_key]
+            assign excerpt = block.settings[excerpt_key]
+            assign date = block.settings[date_key]
+            assign link = block.settings[link_key]
+            assign logo = block.settings[logo_key]
+          %}
+          
+          {% if publication != blank or excerpt != blank %}
+            <div class="ai-press-review-card-{{ ai_gen_id }}">
+              {% if logo != blank %}
+                <div class="ai-press-review-card__logo-{{ ai_gen_id }}">
+                  <img
+                    src="{{ logo | image_url: width: 200}}"
+                    alt="{{ publication | escape }}"
+                    loading="lazy"
+                    width="200"
+                    height="{{ block.settings.logo_height }}"
+                    style="width: auto; height: 100%; max-width: 100%; object-fit: contain;"
+                  >
+                </div>
+              {% else %}
+                <div class="ai-press-review-card__logo-{{ ai_gen_id }}">
+                  <div class="ai-press-review-card__logo-placeholder-{{ ai_gen_id }}">
+                    {{ 'image' | placeholder_svg_tag }}
+                  </div>
+                </div>
+              {% endif %}
+
+              <div class="ai-press-review-card__content-{{ ai_gen_id }}">
+                {% if excerpt != blank %}
+                  <div class="ai-press-review-card__excerpt-{{ ai_gen_id }}">
+                    "{{ excerpt }}"
+                  </div>
+                {% endif %}
+
+                <div class="ai-press-review-card__meta-{{ ai_gen_id }}">
+                  {% if publication != blank %}
+                    <div class="ai-press-review-card__publication-{{ ai_gen_id }}">
+                      {{ publication }}
+                    </div>
+                  {% endif %}
+                  {% if date != blank %}
+                    <div class="ai-press-review-card__date-{{ ai_gen_id }}">
+                      {{ date }}
+                    </div>
+                  {% endif %}</div>
+
+                {% if link != blank %}
+                  <a href="{{ link }}" class="ai-press-review-card__link-{{ ai_gen_id }}" target="_blank" rel="noopener">
+                    Read full review
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M7 17L17 7"></path>
+                      <path d="M7 7h10v10"></path>
+                    </svg>
+                  </a>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="ai-press-reviews__empty-state-{{ ai_gen_id }}">
+        <h3>Add your press reviews</h3>
+        <p>Configure the review settings to showcase your media coverage and testimonials</p>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Press reviews",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section content"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Press & Reviews"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "What the media is saying about us"
+    },
+    {
+      "type": "header",
+      "content": "Review1"
+    },
+    {
+      "type": "text",
+      "id": "review_1_publication",
+      "label": "Publication name",
+      "default": "TechCrunch"
+    },
+    {
+      "type": "textarea",
+      "id": "review_1_excerpt",
+      "label": "Review excerpt"
+    },
+    {
+      "type": "text",
+      "id": "review_1_date",
+      "label": "Publication date",
+      "default": "March 2024"
+    },
+    {
+      "type": "url",
+      "id": "review_1_link",
+      "label": "Review link"
+    },
+    {
+      "type": "image_picker",
+      "id": "review_1_logo",
+      "label": "Publication logo"
+    },
+    {
+      "type": "header",
+      "content": "Review 2"
+    },
+    {
+      "type": "text",
+      "id": "review_2_publication",
+      "label": "Publication name"
+    },
+    {
+      "type": "textarea",
+      "id": "review_2_excerpt",
+      "label": "Review excerpt"
+    },
+    {
+      "type": "text",
+      "id": "review_2_date",
+      "label": "Publication date"
+    },
+    {
+      "type": "url",
+      "id": "review_2_link",
+      "label": "Review link"
+    },
+    {
+      "type": "image_picker",
+      "id": "review_2_logo",
+      "label": "Publication logo"
+    },
+    {
+      "type": "header",
+      "content": "Review 3"
+    },
+    {
+      "type": "text",
+      "id": "review_3_publication",
+      "label": "Publication name"
+    },
+    {
+      "type": "textarea",
+      "id": "review_3_excerpt",
+      "label": "Review excerpt"
+    },
+    {
+      "type": "text",
+      "id": "review_3_date",
+      "label": "Publication date"
+    },
+    {
+      "type": "url",
+      "id": "review_3_link",
+      "label": "Review link"
+    },
+    {
+      "type": "image_picker",
+      "id": "review_3_logo",
+      "label": "Publication logo"
+    },
+    {
+      "type": "header",
+      "content": "Review 4"
+    },
+    {
+      "type": "text",
+      "id": "review_4_publication",
+      "label": "Publication name"
+    },
+    {
+      "type": "textarea",
+      "id": "review_4_excerpt",
+      "label": "Review excerpt"
+    },
+    {
+      "type": "text",
+      "id": "review_4_date",
+      "label": "Publication date"
+    },
+    {
+      "type": "url",
+      "id": "review_4_link",
+      "label": "Review link"
+    },
+    {
+      "type": "image_picker",
+      "id": "review_4_logo",
+      "label": "Publication logo"
+    },
+    {
+      "type": "header",
+      "content": "Review 5"
+    },
+    {
+      "type": "text",
+      "id": "review_5_publication",
+      "label": "Publication name"
+    },
+    {
+      "type": "textarea",
+      "id": "review_5_excerpt",
+      "label": "Review excerpt"
+    },
+    {
+      "type": "text",
+      "id": "review_5_date",
+      "label": "Publication date"
+    },
+    {
+      "type": "url",
+      "id": "review_5_link",
+      "label": "Review link"
+    },
+    {
+      "type": "image_picker",
+      "id": "review_5_logo",
+      "label": "Publication logo"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card border",
+      "default": "#e5e5e5"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link",
+      "default": "#0066cc"
+    },
+    {
+      "type": "color",
+      "id": "link_hover_color",
+      "label": "Link hover",
+      "default": "#004499"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "min": 20,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Section padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "spacing_between_elements",
+      "min": 20,
+      "max": 80,
+      "step": 10,
+      "unit": "px",
+      "label": "Spacing between elements",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Grid gap",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "min": 15,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Card padding",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Card border radius",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "logo_height",
+      "min": 30,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "label": "Logo height",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 20,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Title size",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Subtitle size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "excerpt_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Excerpt size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "publication_size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Publication size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "date_size",
+      "min": 10,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "label": "Date size",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "link_size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Link size",
+      "default": 14
+    }
+  ],
+  "presets": [
+    {
+      "name": "Press reviews"
+    }
+  ],
+  "tag": null
+}
 {% endschema %}
