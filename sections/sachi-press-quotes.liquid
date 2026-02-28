@@ -1,0 +1,119 @@
+{% comment %}
+  Sachi Press Quotes - Paste in theme/sections/
+  Two-column testimonial / press quotes with optional logo.
+{% endcomment %}
+
+<section class="sachi-press section-{{ section.id }}-padding">
+  <div class="sachi-press__container page-width">
+    <div class="sachi-press__grid">
+      {% for block in section.blocks %}
+        <div class="sachi-press__card" {{ block.shopify_attributes }}>
+          {% if block.settings.logo != blank %}
+            <div class="sachi-press__logo">
+              <img src="{{ block.settings.logo | image_url: width: 220 }}" alt="" width="220" height="40" loading="lazy">
+            </div>
+          {% endif %}
+          <blockquote class="sachi-press__quote">{{ block.settings.quote }}</blockquote>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<style>
+  .sachi-press__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 1rem;
+  }
+  @media (min-width: 750px) { .sachi-press__container { padding: 4rem 2rem; } }
+
+  .sachi-press__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  @media (min-width: 750px) {
+    .sachi-press__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .sachi-press__card {
+    background: #fff;
+    padding: 1.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 1px solid #f3f4f6;
+  }
+  @media (min-width: 750px) { .sachi-press__card { padding: 2rem; } }
+
+  .sachi-press__logo {
+    height: 2.5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .sachi-press__logo img {
+    max-height: 100%;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .sachi-press__quote {
+    font-size: 0.875rem;
+    line-height: 1.625;
+    margin: 0;
+  }
+  @media (min-width: 750px) { .sachi-press__quote { font-size: 1rem; } }
+</style>
+
+{% schema %}
+{
+  "name": "Sachi Press Quotes",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "quote",
+      "name": "Quote",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Logo (optional)"
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote",
+          "default": "\"The leather is sourced from environmentally friendly tanneries in Italy, France, and Turkey, where Rure is based and everything is assembled by hand.\""
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sachi Press Quotes",
+      "blocks": [
+        {
+          "type": "quote",
+          "settings": {
+            "quote": "\"The leather is sourced from environmentally friendly tanneries in Italy, France, and Turkey, where Rure is based and everything is assembled by hand.\""
+          }
+        },
+        {
+          "type": "quote",
+          "settings": {
+            "quote": "\"All too often, we're forced to pick: style, or sustainability. Recently, more designers have been making environmental impact a top priority\""
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

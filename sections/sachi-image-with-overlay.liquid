@@ -1,0 +1,178 @@
+{% comment %}
+  Sachi Image with Overlay (Handwoven / two images + center card) - Paste in theme/sections/
+{% endcomment %}
+
+<section class="sachi-image-overlay section-{{ section.id }}-padding">
+  <div class="sachi-image-overlay__container page-width">
+    <div class="sachi-image-overlay__grid">
+      <div class="sachi-image-overlay__left">
+        {% if section.settings.image_left != blank %}
+          <img src="{{ section.settings.image_left | image_url: width: 600 }}" alt="{{ section.settings.image_left.alt | default: 'Left image' }}" width="600" height="750" loading="lazy" class="sachi-image-overlay__img">
+        {% else %}
+          <div class="sachi-image-overlay__placeholder">{{ 'image' | placeholder_svg_tag }}</div>
+        {% endif %}
+      </div>
+      <div class="sachi-image-overlay__right">
+        {% if section.settings.image_right != blank %}
+          <img src="{{ section.settings.image_right | image_url: width: 600 }}" alt="{{ section.settings.image_right.alt | default: 'Right image' }}" width="600" height="750" loading="lazy" class="sachi-image-overlay__img">
+        {% else %}
+          <div class="sachi-image-overlay__placeholder">{{ 'image' | placeholder_svg_tag }}</div>
+        {% endif %}
+      </div>
+      <div class="sachi-image-overlay__card">
+        <h2 class="sachi-image-overlay__title">{{ section.settings.title }}</h2>
+        {% if section.settings.text != blank %}
+          <p class="sachi-image-overlay__text">{{ section.settings.text }}</p>
+        {% endif %}
+        {% if section.settings.button_label != blank %}
+          <a href="{{ section.settings.button_link | default: '#' }}" class="sachi-image-overlay__button">{{ section.settings.button_label }}</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .sachi-image-overlay__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+  @media (min-width: 750px) { .sachi-image-overlay__container { padding: 3rem 2rem; } }
+
+  .sachi-image-overlay__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    position: relative;
+  }
+  @media (min-width: 990px) {
+    .sachi-image-overlay__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+  }
+
+  .sachi-image-overlay__left,
+  .sachi-image-overlay__right {
+    position: relative;
+    aspect-ratio: 4 / 5;
+  }
+  @media (min-width: 990px) {
+    .sachi-image-overlay__left,
+    .sachi-image-overlay__right { aspect-ratio: auto; min-height: 500px; }
+  }
+
+  .sachi-image-overlay__img,
+  .sachi-image-overlay__placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .sachi-image-overlay__placeholder { background: #f0f0f0; }
+
+  .sachi-image-overlay__card {
+    background: #fff;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    max-width: 28rem;
+    width: 90%;
+    margin: -2rem auto 0;
+    position: relative;
+    z-index: 1;
+  }
+  @media (min-width: 990px) {
+    .sachi-image-overlay__card {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      margin: 0;
+      padding: 2rem;
+      width: auto;
+    }
+  }
+  @media (min-width: 1200px) { .sachi-image-overlay__card { padding: 2.5rem; } }
+
+  .sachi-image-overlay__title {
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin: 0 0 1rem;
+  }
+  @media (min-width: 750px) { .sachi-image-overlay__title { font-size: 1.5rem; } }
+
+  .sachi-image-overlay__text {
+    font-size: 0.875rem;
+    line-height: 1.625;
+    margin: 0 0 1.5rem;
+  }
+  @media (min-width: 750px) { .sachi-image-overlay__text { font-size: 1rem; } }
+
+  .sachi-image-overlay__button {
+    background: transparent;
+    border: none;
+    text-decoration: underline;
+    font-weight: 700;
+    font-size: 0.875rem;
+    letter-spacing: 0.025em;
+    cursor: pointer;
+  }
+  .sachi-image-overlay__button:hover { text-decoration: none; }
+</style>
+
+{% schema %}
+{
+  "name": "Sachi Image with Overlay",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image_left",
+      "label": "Left image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_right",
+      "label": "Right image"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "HANDWOVEN IN JAIPUR"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "A modern take on India's rich craft traditions. Soft earth tones and lots of texture."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "SHOP THE KANTHA COLLECTION"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sachi Image with Overlay",
+      "settings": {
+        "title": "HANDWOVEN IN JAIPUR",
+        "text": "A modern take on India's rich craft traditions. Soft earth tones and lots of texture.",
+        "button_label": "SHOP THE KANTHA COLLECTION"
+      }
+    }
+  ]
+}
+{% endschema %}

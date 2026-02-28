@@ -1,0 +1,140 @@
+{% comment %}
+  Sachi Collage Collection - Paste in theme/sections/
+  Three image cards (e.g. Pillow Cases, Euros, Shams). Same layout as featured categories but different style (underline CTA).
+{% endcomment %}
+
+<section class="sachi-collage section-{{ section.id }}-padding">
+  <div class="sachi-collage__container page-width">
+    <div class="sachi-collage__grid">
+      {% for block in section.blocks %}
+        <div class="sachi-collage__item" {{ block.shopify_attributes }}>
+          <a href="{{ block.settings.link | default: '#' }}" class="sachi-collage__link">
+            {% if block.settings.image != blank %}
+              <img
+                src="{{ block.settings.image | image_url: width: 500 }}"
+                alt="{{ block.settings.title | escape }}"
+                width="500"
+                height="500"
+                loading="lazy"
+                class="sachi-collage__image"
+              >
+            {% else %}
+              <div class="sachi-collage__placeholder">{{ 'collection-2' | placeholder_svg_tag }}</div>
+            {% endif %}
+            <span class="sachi-collage__title">{{ block.settings.title }}</span>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<style>
+  .sachi-collage {
+    background: #f9fafb;
+    padding: 3rem 1rem;
+  }
+  @media (min-width: 750px) { .sachi-collage { padding: 4rem 2rem; } }
+
+  .sachi-collage__container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .sachi-collage__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  @media (min-width: 750px) {
+    .sachi-collage__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 990px) {
+    .sachi-collage__grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  .sachi-collage__item {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 1;
+  }
+
+  .sachi-collage__link {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .sachi-collage__image,
+  .sachi-collage__placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .sachi-collage__placeholder { background: #e5e5e5; }
+
+  .sachi-collage__title {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    text-decoration: underline;
+    font-weight: 700;
+    font-size: 0.875rem;
+    letter-spacing: 0.025em;
+    white-space: nowrap;
+  }
+  @media (min-width: 750px) { .sachi-collage__title { font-size: 1rem; } }
+  .sachi-collage__link:hover .sachi-collage__title { text-decoration: none; }
+</style>
+
+{% schema %}
+{
+  "name": "Sachi Collage Collection",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "SHOP PILLOW CASES"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sachi Collage Collection",
+      "blocks": [
+        { "type": "item", "settings": { "title": "SHOP PILLOW CASES" }},
+        { "type": "item", "settings": { "title": "SHOP EUROS" }},
+        { "type": "item", "settings": { "title": "SHOP SHAMS" }}
+      ]
+    }
+  ]
+}
+{% endschema %}

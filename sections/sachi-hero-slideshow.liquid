@@ -1,0 +1,240 @@
+{% comment %}
+  Sachi Hero Slideshow - Paste in theme/sections/
+  Replaces React HeroCarousel. Add to Homepage template in Theme Editor.
+{% endcomment %}
+
+<section class="sachi-hero-slideshow section-{{ section.id }}-padding" aria-label="Hero slideshow">
+  <div class="sachi-hero-slideshow__inner">
+    {% for block in section.blocks %}
+      <div class="sachi-hero-slide {% if forloop.first %}is-active{% endif %}" data-slide-index="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+        <div class="sachi-hero-slide__overlay"></div>
+        {% if block.settings.image != blank %}
+          <img
+            src="{{ block.settings.image | image_url: width: 1600 }}"
+            alt="{{ block.settings.title | escape }}"
+            width="1600"
+            height="700"
+            loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+            class="sachi-hero-slide__image"
+          >
+        {% else %}
+          <div class="sachi-hero-slide__placeholder">{{ 'lifestyle-1' | placeholder_svg_tag }}</div>
+        {% endif %}
+        <div class="sachi-hero-slide__content">
+          <h1 class="sachi-hero-slide__title">{{ block.settings.title }}</h1>
+          {% if block.settings.subtitle != blank %}
+            <p class="sachi-hero-slide__subtitle">{{ block.settings.subtitle }}</p>
+          {% endif %}
+          {% if block.settings.button_label != blank and block.settings.button_link != blank %}
+            <a href="{{ block.settings.button_link }}" class="sachi-hero-slide__button">
+              {{ block.settings.button_label }}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  {% if section.blocks.size > 1 %}
+    <div class="sachi-hero-slideshow__dots" aria-label="Slide navigation">
+      {% for block in section.blocks %}
+        <button type="button" class="sachi-hero-slideshow__dot {% if forloop.first %}is-active{% endif %}" data-slide-index="{{ forloop.index0 }}" aria-label="Go to slide {{ forloop.index }}"></button>
+      {% endfor %}
+    </div>
+  {% endif %}
+</section>
+
+<style>
+  .sachi-hero-slideshow {
+    position: relative;
+    height: 500px;
+    overflow: hidden;
+  }
+  @media (min-width: 750px) { .sachi-hero-slideshow { height: 600px; } }
+  @media (min-width: 990px) { .sachi-hero-slideshow { height: 700px; } }
+
+  .sachi-hero-slideshow__inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .sachi-hero-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 1s ease;
+    pointer-events: none;
+  }
+  .sachi-hero-slide.is-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .sachi-hero-slide__image,
+  .sachi-hero-slide__placeholder {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .sachi-hero-slide__placeholder { background: #e5e5e5; }
+
+  .sachi-hero-slide__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6));
+    z-index: 1;
+  }
+
+  .sachi-hero-slide__content {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+
+  .sachi-hero-slide__title {
+    font-family: Georgia, serif;
+    font-size: 1.875rem;
+    font-weight: 400;
+    color: #fff;
+    margin: 0 0 0.75rem;
+    line-height: 1.25;
+  }
+  @media (min-width: 750px) { .sachi-hero-slide__title { font-size: 2.25rem; } }
+  @media (min-width: 990px) { .sachi-hero-slide__title { font-size: 3rem; } }
+  @media (min-width: 1200px) { .sachi-hero-slide__title { font-size: 3.75rem; } }
+
+  .sachi-hero-slide__subtitle {
+    font-size: 1.125rem;
+    color: rgba(255,255,255,0.9);
+    margin: 0 0 1.5rem;
+  }
+  @media (min-width: 750px) { .sachi-hero-slide__subtitle { font-size: 1.25rem; } }
+
+  .sachi-hero-slide__button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    border: 1px solid #fff;
+    color: #fff;
+    font-size: 0.875rem;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .sachi-hero-slide__button:hover {
+    background: #fff;
+    color: #000;
+  }
+
+  .sachi-hero-slideshow__dots {
+    position: absolute;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .sachi-hero-slideshow__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.5);
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .sachi-hero-slideshow__dot:hover { background: rgba(255,255,255,0.75); }
+  .sachi-hero-slideshow__dot.is-active {
+    background: #fff;
+    height: 32px;
+  }
+</style>
+
+<script>
+  (function() {
+    const section = document.querySelector('.sachi-hero-slideshow');
+    if (!section || section.querySelectorAll('[data-slide-index]').length <= 1) return;
+    const slides = section.querySelectorAll('.sachi-hero-slide');
+    const dots = section.querySelectorAll('.sachi-hero-slideshow__dot');
+    let current = 0;
+    const total = slides.length;
+
+    function goTo(i) {
+      current = (i + total) % total;
+      slides.forEach(function(s, j) { s.classList.toggle('is-active', j === current); });
+      dots.forEach(function(d, j) { d.classList.toggle('is-active', j === current); });
+    }
+
+    dots.forEach(function(dot, i) {
+      dot.addEventListener('click', function() { goTo(i); });
+    });
+
+    setInterval(function() { goTo(current + 1); }, 5000);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Sachi Hero Slideshow",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Luxury Bedding At 1/3 The Price"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Premium Egyptian Cotton Sheets"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Shop Sheet Sets"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sachi Hero Slideshow",
+      "blocks": [
+        { "type": "slide", "settings": { "title": "Luxury Bedding At 1/3 The Price", "subtitle": "Premium Egyptian Cotton Sheets", "button_label": "Shop Sheet Sets" }},
+        { "type": "slide", "settings": { "title": "Cloud-Like Comfort", "subtitle": "Hypoallergenic Down Alternative Duvets", "button_label": "Shop Duvets" }},
+        { "type": "slide", "settings": { "title": "Artisan Crafted Quilts", "subtitle": "Hand-Stitched Perfection", "button_label": "Shop Quilts" }}
+      ]
+    }
+  ]
+}
+{% endschema %}
